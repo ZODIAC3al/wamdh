@@ -11,8 +11,14 @@ load_dotenv()
 MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017")
 MONGO_DB_NAME = os.environ.get("MONGO_DB_NAME", "wamdh")
 
-# Initialize pymongo client
-client = pymongo.MongoClient(MONGO_URI)
+# Initialize pymongo client with short timeouts so a missing/unreachable
+# MongoDB instance fails fast (5 s) instead of hanging Gunicorn workers.
+client = pymongo.MongoClient(
+    MONGO_URI,
+    serverSelectionTimeoutMS=5000,
+    connectTimeoutMS=5000,
+    socketTimeoutMS=10000,
+)
 db = client[MONGO_DB_NAME]
 
 # Collections reference helpers

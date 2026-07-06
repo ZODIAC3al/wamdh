@@ -5,7 +5,22 @@ from django.conf.urls.static import static
 from django.http import JsonResponse
 
 def public_health_check(request):
-    return JsonResponse({"status": "ok", "message": "Wamdh API is healthy"})
+    """Lightweight healthcheck — always returns 200 so Railway considers the app alive."""
+    import time
+    db_status = "unknown"
+    try:
+        from config.mongodb import client as mongo_client
+        mongo_client.admin.command("ping")
+        db_status = "connected"
+    except Exception as e:
+        db_status = f"unreachable: {str(e)[:80]}"
+    return JsonResponse({
+        "status": "ok",
+        "message": "Wamdh API is healthy",
+        "db": db_status,
+        "timestamp": time.time(),
+    })
+
 
 urlpatterns = [
     path("health/", public_health_check),
