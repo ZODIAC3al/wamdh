@@ -1,0 +1,51 @@
+config:
+  target: "http://localhost:8000"
+  # Set WAMDH_TOKEN env var before running:
+  # $env:WAMDH_TOKEN = "your_token_here"   (PowerShell)
+  phases:
+    - name: "Warmup"
+      duration: 30
+      arrivalRate: 5
+    - name: "Sustained messaging load"
+      duration: 120
+      arrivalRate: 20
+    - name: "Peak burst"
+      duration: 30
+      arrivalRate: 40
+  payload:
+    variables:
+      token: "{{ $processEnvironment.WAMDH_TOKEN }}"
+  ensure:
+    p99: 1000   # 99th percentile must be under 1 second
+    maxErrorRate: 1
+
+scenarios:
+  - name: "Browse rooms and messages"
+    weight: 60
+    flow:
+      - get:
+          url: "/api/messages/rooms/"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          expect:
+            - statusCode: 200
+            - contentType: json
+      - think: 1
+      - get:
+          url: "/api/messages/friends/"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          expect:
+            - statusCode: 200
+      - think: 2
+
+  - name: "Browse communities"
+    weight: 40
+    flow:
+      - get:
+          url: "/api/messages/communities/"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          expect:
+            - statusCode: 200
+      - think: 1

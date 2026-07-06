@@ -1,0 +1,128 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+@import "nativewind/theme";
+
+/* ─── Theme: design tokens (light / dark) ─────────────────────────
+   1. :root              — light defaults (all platforms)
+   2. @media dark :root  — dark defaults; nativewind maps this to
+                           Appearance.getColorScheme() on native.
+   3. :root.dark / :root.light — higher specificity for web class toggle. */
+@layer theme {
+  :root {
+    --primary: 23 23 23;
+    --primary-foreground: 250 250 250;
+    --card: 255 255 255;
+    --secondary: 245 245 245;
+    --secondary-foreground: 23 23 23;
+    --background: 250 248 245;
+    --popover: 255 255 255;
+    --popover-foreground: 21 18 15;
+    --muted: 243 239 233;
+    --muted-foreground: 122 111 99;
+    --destructive: 190 26 26;
+    --foreground: 21 18 15;
+    --border: 236 231 225;
+    --input: 243 239 233;
+    --ring: 212 212 212;
+    --accent: 38 38 38;
+    --accent-foreground: 21 18 15;
+    --brand-primary: 190 26 26;
+    --brand-gold: 242 169 59;
+    --lime-accent: 212 252 52;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: 250 248 245;
+      --primary-foreground: 21 18 15;
+      --card: 26 23 20;
+      --secondary: 42 37 32;
+      --secondary-foreground: 250 248 245;
+      --background: 14 12 10;
+      --popover: 26 23 20;
+      --popover-foreground: 250 248 245;
+      --muted: 42 37 32;
+      --muted-foreground: 122 111 99;
+      --destructive: 190 26 26;
+      --foreground: 250 248 245;
+      --border: 42 37 32;
+      --input: 42 37 32;
+      --accent: 250 248 245;
+      --accent-foreground: 21 18 15;
+      --ring: 115 115 115;
+      --brand-primary: 190 26 26;
+      --brand-gold: 242 169 59;
+      --lime-accent: 212 252 52;
+    }
+  }
+
+  .dark {
+    --primary: 250 248 245;
+    --primary-foreground: 21 18 15;
+    --card: 26 23 20;
+    --secondary: 42 37 32;
+    --secondary-foreground: 250 248 245;
+    --background: 14 12 10;
+    --popover: 26 23 20;
+    --popover-foreground: 250 248 245;
+    --muted: 42 37 32;
+    --muted-foreground: 122 111 99;
+    --destructive: 190 26 26;
+    --foreground: 250 248 245;
+    --border: 42 37 32;
+    --input: 42 37 32;
+    --accent: 250 248 245;
+    --accent-foreground: 21 18 15;
+    --ring: 115 115 115;
+    --brand-primary: 190 26 26;
+    --brand-gold: 242 169 59;
+    --lime-accent: 212 252 52;
+  }
+
+  .light {
+    --primary: 23 23 23;
+    --primary-foreground: 250 250 250;
+    --card: 255 255 255;
+    --secondary: 245 245 245;
+    --secondary-foreground: 23 23 23;
+    --background: 250 248 245;
+    --popover: 255 255 255;
+    --popover-foreground: 21 18 15;
+    --muted: 243 239 233;
+    --muted-foreground: 122 111 99;
+    --destructive: 190 26 26;
+    --foreground: 21 18 15;
+    --border: 236 231 225;
+    --input: 243 239 233;
+    --ring: 212 212 212;
+    --accent: 38 38 38;
+    --accent-foreground: 21 18 15;
+    --brand-primary: 190 26 26;
+    --brand-gold: 242 169 59;
+    --lime-accent: 212 252 52;
+  }
+}
+
+@theme inline {
+  --color-primary: rgb(var(--primary));
+  --color-primary-foreground: rgb(var(--primary-foreground));
+  --color-card: rgb(var(--card));
+  --color-secondary: rgb(var(--secondary));
+  --color-secondary-foreground: rgb(var(--secondary-foreground));
+  --color-background: rgb(var(--background));
+  --color-popover: rgb(var(--popover));
+  --color-popover-foreground: rgb(var(--popover-foreground));
+  --color-muted: rgb(var(--muted));
+  --color-muted-foreground: rgb(var(--muted-foreground));
+  --color-destructive: rgb(var(--destructive));
+  --color-foreground: rgb(var(--foreground));
+  --color-border: rgb(var(--border));
+  --color-input: rgb(var(--input));
+  --color-ring: rgb(var(--ring));
+  --color-accent: rgb(var(--accent));
+  --color-accent-foreground: rgb(var(--accent-foreground));
+  --color-brand-primary: rgb(var(--brand-primary));
+  --color-brand-gold: rgb(var(--brand-gold));
+  --color-lime-accent: rgb(var(--lime-accent));
+}

@@ -1,0 +1,1 @@
+# apps/analytics/migrations package
