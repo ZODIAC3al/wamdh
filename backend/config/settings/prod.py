@@ -7,16 +7,16 @@ DEBUG = False
 # Accept custom domain AND the auto-generated hosting platform domains
 _allowed = os.environ.get("ALLOWED_HOST", "")
 ALLOWED_HOSTS = [h.strip() for h in _allowed.split(",") if h.strip()]
-# Always allow Railway and Render auto-generated domains so the app works out of the box
-ALLOWED_HOSTS += [".up.railway.app", ".onrender.com"]
+# Always allow Railway and Render auto-generated domains, plus local interfaces for health checks
+ALLOWED_HOSTS += [".up.railway.app", ".onrender.com", "localhost", "127.0.0.1", "0.0.0.0"]
 
 if not os.environ.get("DJANGO_SECRET_KEY"):
     raise ValueError("DJANGO_SECRET_KEY environment variable must be set in production")
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
-# Security headers
-SECURE_SSL_REDIRECT = True
+# Security headers (allow external proxy load-balancers to enforce SSL)
+SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", "False").lower() == "true"
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
