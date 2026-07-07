@@ -18,7 +18,10 @@
     "ios": {
       "icon": "./assets/images/icon.png",
       "bundleIdentifier": "com.wamdh.studyos",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {

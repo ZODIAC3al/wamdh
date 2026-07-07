@@ -181,6 +181,46 @@ function PhoneMockup({ activeScreen }: PhoneMockupProps) {
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [testimonialIdx, setTestimonialIdx] = useState(0);
+
+  const testimonials = [
+    {
+      name: "Nathan Roberts",
+      role: "Calculus Student",
+      title: "Minimum Effort Maximum Attention",
+      text: "As one of the top learning apps, we leverage tools like Wamdh to help build new dynamic revisions. With the least effort of a few clicks."
+    },
+    {
+      name: "Sarah Taylor",
+      role: "Product Designer",
+      title: "Cleanest Interface Ever",
+      text: "The integration works perfectly. The custom schedules allowed us to trim our study hours by nearly 20% in the first winter semester."
+    },
+    {
+      name: "James Anderson",
+      role: "UI/UX Engineer",
+      title: "Highly Intuitive Layout",
+      text: "Configuring presets is incredibly fast, and the smart schedules work seamlessly in the background. Excellent user flows."
+    },
+    {
+      name: "Michael Brown",
+      role: "Developer",
+      title: "Highly Responsive Mona AI",
+      text: "The temperature controller is incredibly responsive. Excellent device alerts and direct feedback for diagnostic warnings."
+    },
+    {
+      name: "Emily Johnson",
+      role: "Marketing Specialist",
+      title: "Stunning Design & Animations",
+      text: "Outstanding design aesthetics and support features. Recommended for all smart-home enthusiasts looking for direct setup."
+    },
+    {
+      name: "Ahmad Rashid",
+      role: "Engineering Student",
+      title: "Amazing Spaced Repetition",
+      text: "Spaced repetition works like magic. Card intervals adjust perfectly to my memory retention score."
+    }
+  ];
 
   // Auto-scroll reveal initialization
   useEffect(() => {
@@ -200,8 +240,8 @@ export default function Home() {
   }, []);
 
   const handleDownload = (e: React.MouseEvent) => {
-    // Explicit SDK download link
-    window.location.href = "/downloads/wamdh.apk";
+    // Redirect to fast public Expo CDN download of the compiled APK
+    window.location.href = "https://expo.dev/artifacts/eas/GqO8ZK983pfFlagyiDg2P_VZB9zQbTkq9kLt9W9TrTk.apk";
   };
 
   return (
@@ -402,82 +442,138 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          OUR CLIENTS
+          OUR CLIENTS (Layered Organic Blob & White Logos)
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-20 px-6 md:px-12 bg-white border-t border-b border-[#E7E9F0]">
-        <div className="max-w-[1280px] mx-auto text-center">
-          <h2 className="text-[#12131A] font-extrabold text-3xl mb-3 reveal">Our Clients</h2>
-          <p className="text-[#6B7280] text-sm max-w-md mx-auto mb-12 reveal delay-100">
-            Trusted by the world's most innovative home builders and smart device creators.
-          </p>
-
-          {/* Logo Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center items-center reveal delay-200">
-            {[
-              "logo-logipsum", "logo-coticaz", "logo-aquatune", "logo-goldon",
-              "logo-entaol", "logo-cotieaz", "logo-morlino", "logo-proline"
-            ].map((logo, idx) => (
-              <div key={idx} className="text-gray-400 font-extrabold text-lg tracking-wider opacity-60 hover:opacity-100 transition-all uppercase select-none">
-                {logo.replace("logo-", "")}
-              </div>
-            ))}
+      <section className="py-24 px-6 md:px-12 bg-white overflow-hidden">
+        <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          
+          {/* Left: Text Block */}
+          <div className="lg:col-span-5 reveal flex flex-col items-start text-left">
+            <h2 className="text-[#12131A] font-extrabold text-4xl mb-4 leading-tight">Our Clients</h2>
+            <p className="text-[#6B7280] text-base leading-relaxed mb-6 max-w-md">
+              Wamdh is helping the world's leading enterprises democratize career development, unlock skills and build a future-proof workforce.
+            </p>
           </div>
+
+          {/* Right: Layered Organic Blobs and White Logos */}
+          <div className="lg:col-span-7 reveal relative flex justify-center items-center h-[340px] md:h-[400px]">
+            {/* Back Pink Blob */}
+            <div 
+              className="absolute w-[95%] h-[95%] bg-[#FF8E9C]/90 animate-blob pointer-events-none opacity-90"
+              style={{
+                borderRadius: "30% 70% 70% 30% / 30% 30% 70% 70%",
+                animationDuration: "12s"
+              }}
+            />
+            {/* Front Blue Blob */}
+            <div 
+              className="absolute w-[90%] h-[90%] bg-[#2547F4] animate-blob shadow-2xl flex items-center justify-center p-6 md:p-12 text-white"
+              style={{
+                borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+                animationDuration: "8s"
+              }}
+            >
+              {/* White client logos layout */}
+              <div className="grid grid-cols-3 gap-6 md:gap-8 justify-items-center items-center w-full z-10">
+                {[
+                  "Unilever", "Schneider Electric", "Walmart", 
+                  "Deloitte.", "(intel)", "bp", 
+                  "ADP", "Standard Chartered", "BlueCross BlueShield"
+                ].map((logo, idx) => (
+                  <div 
+                    key={idx} 
+                    className="text-white font-extrabold text-[12px] md:text-sm tracking-wider hover:scale-105 transition-all text-center select-none opacity-95 hover:opacity-100"
+                  >
+                    {logo}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          TESTIMONIALS
+          TESTIMONIALS (Grid, Floating Avatars, Interactive Card)
       ════════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 px-6 md:px-12 bg-[#F7F8FB]">
-        <div className="max-w-[1280px] mx-auto text-center">
-          <h2 className="text-[#12131A] font-extrabold text-4xl mb-4 reveal">Testimonials</h2>
+      <section className="py-24 px-6 md:px-12 bg-[#F7F8FB] overflow-hidden relative">
+        {/* Background Grid Lines (100px square grid pattern) */}
+        <div 
+          className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{
+            backgroundImage: "linear-gradient(to right, #12131A 1px, transparent 1px), linear-gradient(to bottom, #12131A 1px, transparent 1px)",
+            backgroundSize: "100px 100px"
+          }}
+        />
+
+        <div className="max-w-[1280px] mx-auto text-center relative z-10">
+          <h2 className="text-[#12131A] font-extrabold text-4xl mb-4 reveal">Testimonial</h2>
           <p className="text-[#6B7280] text-base max-w-lg mx-auto mb-16 reveal delay-100">
-            Hear from homeowners who upgraded to the premium smartHome environment.
+            Let's do our best to answer your most frequently asked questions. By doing this, we aim to assist you more effectively
           </p>
 
-          {/* 2x2 grid of testimonial cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left reveal delay-200">
+          {/* Testimonials interactive area */}
+          <div className="relative min-h-[460px] flex items-center justify-center">
+            
+            {/* 6 Floating circular avatars (Clickable) */}
             {[
-              {
-                text: "The integration works perfectly. The custom schedules allowed us to trim our energy bills by nearly 20% in the first winter.",
-                name: "Sarah Taylor", role: "Product Designer"
-              },
-              {
-                text: "Highly intuitive layout! Configuring bedroom presets is incredibly fast, and the smart schedules work seamlessly in the background.",
-                name: "James Anderson", role: "UI/UX Engineer"
-              },
-              {
-                text: "The temperature controller is incredibly responsive. Excellent device alerts and direct feedback for diagnostic warnings.",
-                name: "Michael Brown", role: "Developer"
-              },
-              {
-                text: "Outstanding design aesthetics and support features. Recommended for all smart-home enthusiasts looking for direct setup.",
-                name: "Emily Johnson", role: "Marketing Specialist"
-              }
-            ].map((test, idx) => (
-              <div key={idx} className="bg-white rounded-3xl p-8 border border-[#E7E9F0] shadow-card flex flex-col justify-between hover:shadow-lg transition-all duration-300">
-                <div>
-                  <span className="text-6xl text-[#2547F4]/20 leading-none font-serif select-none">“</span>
-                  <p className="text-[#6B7280] text-base leading-relaxed mb-6 -mt-4">{test.text}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 border border-gray-100 flex items-center justify-center text-sm font-bold text-[#2547F4]">
-                    {test.name[0]}
-                  </div>
-                  <div>
-                    <h5 className="text-[#12131A] font-extrabold text-sm leading-tight">{test.name}</h5>
-                    <p className="text-[#6B7280] text-xs font-semibold">{test.role}</p>
-                  </div>
-                </div>
-              </div>
+              { idx: 0, initial: "N", name: "Nathan Roberts", x: "left-[10%] top-[10%]", size: "w-16 h-16 text-lg" },
+              { idx: 1, initial: "S", name: "Sarah Taylor", x: "left-[22%] top-[45%]", size: "w-12 h-12 text-sm" },
+              { idx: 2, initial: "J", name: "James Anderson", x: "left-[8%] top-[70%]", size: "w-14 h-14 text-base" },
+              { idx: 3, initial: "M", name: "Michael Brown", x: "right-[12%] top-[12%]", size: "w-14 h-14 text-base" },
+              { idx: 4, initial: "E", name: "Emily Johnson", x: "right-[20%] top-[40%]", size: "w-16 h-16 text-lg" },
+              { idx: 5, initial: "A", name: "Ahmad Rashid", x: "right-[8%] top-[68%]", size: "w-12 h-12 text-sm" }
+            ].map((avatar) => (
+              <button
+                key={avatar.idx}
+                onClick={() => setTestimonialIdx(avatar.idx)}
+                className={`absolute rounded-full border-2 transition-all duration-300 shadow-md flex items-center justify-center font-bold ${avatar.x} ${avatar.size} ${
+                  testimonialIdx === avatar.idx 
+                    ? "bg-[#2547F4] text-white border-white scale-110 z-20 shadow-xl" 
+                    : "bg-white text-[#2547F4] border-transparent hover:border-[#2547F4]/40 hover:scale-105"
+                }`}
+                title={avatar.name}
+              >
+                {avatar.initial}
+              </button>
             ))}
-          </div>
 
-          {/* Carousel dots */}
-          <div className="flex justify-center gap-2 mt-12">
-            {[0, 1, 2].map((dot) => (
-              <span key={dot} className={`w-2.5 h-2.5 rounded-full cursor-pointer transition-all ${dot === 0 ? "bg-[#2547F4]" : "bg-gray-300"}`} />
-            ))}
+            {/* Foreground Central Card */}
+            <div className="bg-white rounded-3xl p-8 md:p-10 border border-[#E7E9F0] shadow-card max-w-[580px] w-full mx-auto relative z-10 transition-all duration-500 hover:shadow-xl">
+              
+              {/* Central avatar in border */}
+              <div className="flex flex-col items-center mb-6">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 border-2 border-[#2547F4]/30 flex items-center justify-center text-xl font-bold text-[#2547F4] mb-3">
+                  {testimonials[testimonialIdx].name[0]}
+                </div>
+                <h5 className="text-[#12131A] font-extrabold text-base leading-tight">{testimonials[testimonialIdx].name}</h5>
+                <p className="text-[#6B7280] text-xs font-semibold uppercase tracking-wider mt-0.5">{testimonials[testimonialIdx].role}</p>
+              </div>
+
+              {/* Quote Heading & Text */}
+              <div className="text-center transition-opacity duration-300">
+                <h4 className="text-[#12131A] font-extrabold text-lg mb-4">
+                  {testimonials[testimonialIdx].title}
+                </h4>
+                <p className="text-[#6B7280] text-sm md:text-base leading-relaxed">
+                  "{testimonials[testimonialIdx].text}"
+                </p>
+              </div>
+
+              {/* Carousel dots */}
+              <div className="flex justify-center gap-2 mt-8">
+                {testimonials.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setTestimonialIdx(idx)}
+                    className={`w-2 h-2 rounded-full transition-all ${idx === testimonialIdx ? "bg-[#2547F4] w-5" : "bg-gray-300 hover:bg-gray-400"}`}
+                  />
+                ))}
+              </div>
+
+            </div>
+
           </div>
         </div>
       </section>
@@ -627,73 +723,135 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          FOOTER (Navy Background)
+          FOOTER (Navy Background, Outline Blobs, Large CTA)
       ════════════════════════════════════════════════════════════════════ */}
-      <footer className="bg-[#0E1526] text-white pt-20 pb-10 px-6 md:px-12">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+      <footer className="bg-[#0E1526] text-white pt-24 pb-12 px-6 md:px-12 relative overflow-hidden">
+        {/* Floating Neon Outlines/Shapes in Corners */}
+        <div className="absolute top-[-50px] left-[-50px] w-48 h-48 border-4 border-dashed border-[#2547F4]/20 rounded-full animate-spin-slow pointer-events-none" />
+        <div className="absolute top-[20%] right-[-80px] w-64 h-64 border-4 border-double border-[#6C63FF]/15 rounded-full animate-float pointer-events-none" />
+
+        <div className="max-w-[1280px] mx-auto relative z-10">
           
-          {/* Col 1: Logo & Info */}
-          <div>
-            <div className="flex items-center gap-2 mb-5">
-              <svg className="w-6 h-6 text-[#2547F4]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-              <span className="font-extrabold text-lg tracking-tight text-white">Wamdh</span>
+          {/* Upper Section: Large CTA Banner */}
+          <div className="text-center pb-20 border-b border-white/10 flex flex-col items-center">
+            <h2 className="text-white font-extrabold text-4xl md:text-5xl mb-8 tracking-tight">
+              Start Mastering Your Studies!
+            </h2>
+            
+            {/* CTA Button with Accent lines */}
+            <div className="relative group">
+              {/* Hand-drawn accent indicators (decorative side dashes) */}
+              <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 text-[#FF6B57] font-black text-xl select-none animate-pulse">彡</div>
+              <button 
+                onClick={handleDownload}
+                className="bg-[#2547F4] hover:bg-[#1B35C4] text-white px-10 py-4 rounded-full text-base font-extrabold transition-all duration-300 shadow-xl group-hover:scale-105"
+              >
+                Try Wamdh Now &gt;
+              </button>
+              <div className="absolute -right-6 top-1/2 transform -translate-y-1/2 text-[#FF6B57] font-black text-xl select-none animate-pulse">ミ</div>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Recreate the ultimate smart home environment with modern SaaS and mobile app controls under Wamdh.
-            </p>
           </div>
 
-          {/* Col 2: Quick Links */}
-          <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider mb-5">Quick Links</h4>
-            <ul className="space-y-3">
-              {["Home", "Features", "Pricing", "Download"].map((link) => (
-                <li key={link}>
-                  <a href={`#${link.toLowerCase()}`} className="text-gray-400 hover:text-white text-sm transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {/* Middle Section: Columns Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 py-16">
+            
+            {/* Col 1: Brand block (Left, width ~35%) */}
+            <div className="md:col-span-4 flex flex-col items-start text-left">
+              <div className="flex items-center gap-2 mb-5">
+                <svg className="w-6 h-6 text-[#2547F4]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span className="font-extrabold text-lg tracking-tight text-white">Wamdh</span>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-sm">
+                ❤️ Empowering students to build their dream future with next-generation AI revision tools.
+              </p>
+              
+              {/* Product Hunt Badge & All Systems Operational Badge */}
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="bg-[#12131A] text-white border border-[#E7E9F0]/10 rounded-full px-4 py-2 flex items-center gap-2 text-xs font-bold shadow-md hover:border-[#2547F4]/30 cursor-pointer select-none transition-all">
+                  <span className="text-amber-500">🏆</span>
+                  <span>PRODUCT HUNT</span>
+                  <span className="text-gray-400 font-normal">#1 Product of the Week</span>
+                </div>
+                <div className="bg-[#12131A] text-emerald-400 border border-emerald-500/20 rounded-full px-4 py-2 flex items-center gap-2 text-xs font-bold shadow-md select-none">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>All systems operational</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Col 2: General */}
+            <div className="md:col-span-2 text-left">
+              <h4 className="font-bold text-xs uppercase tracking-widest text-[#2547F4] mb-5">General</h4>
+              <ul className="space-y-3 text-sm">
+                {["About Wamdh", "Public Roadmap", "Changelog", "Affiliate Program"].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="text-gray-400 hover:text-white transition-colors">{item}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Col 3: Resources */}
+            <div className="md:col-span-2 text-left">
+              <h4 className="font-bold text-xs uppercase tracking-widest text-[#2547F4] mb-5">Resources</h4>
+              <ul className="space-y-3 text-sm">
+                {["Documentation", "Tutorial Videos", "Community", "Wamdh Blog", "Free Illustrations", "Partners"].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="text-gray-400 hover:text-white transition-colors">{item}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Col 4: Follow Us */}
+            <div className="md:col-span-2 text-left">
+              <h4 className="font-bold text-xs uppercase tracking-widest text-[#2547F4] mb-5">Follow Us</h4>
+              <ul className="space-y-3 text-sm">
+                {["Twitter", "LinkedIn", "Facebook", "Discord", "Instagram", "TikTok"].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="text-gray-400 hover:text-white transition-colors">{item}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Col 5: Partner Program */}
+            <div className="md:col-span-2 text-left">
+              <h4 className="font-bold text-xs uppercase tracking-widest text-[#2547F4] mb-5">Partner</h4>
+              <p className="text-gray-400 text-xs mb-3 leading-relaxed">
+                Earn up to 40% recurring commission.
+              </p>
+              <a href="#" className="text-[#FF6B57] hover:text-[#FF8E9C] text-xs font-bold flex items-center gap-1.5 transition-colors">
+                Become a Partner <span>→</span>
+              </a>
+            </div>
+
           </div>
 
-          {/* Col 3: Support */}
-          <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider mb-5">Support</h4>
-            <ul className="space-y-3">
-              {["Help Center", "Terms of Service", "Privacy Policy", "Contact Us"].map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 4: Follow Us */}
-          <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider mb-5">Follow Us</h4>
-            <div className="flex gap-3">
-              {["fb", "tw", "in", "ig"].map((soc) => (
-                <a
-                  key={soc}
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold hover:bg-[#2547F4] hover:border-transparent transition-all"
-                >
-                  {soc.toUpperCase()}
-                </a>
-              ))}
+          {/* Bottom Copyright Bar */}
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+            <p>© 2026 Wamdh, Inc. All rights reserved.</p>
+            <div className="flex gap-4">
+              <a href="#" className="hover:text-white transition-all">Terms & Conditions</a>
+              <a href="#" className="hover:text-white transition-all">Privacy Policy</a>
             </div>
           </div>
 
         </div>
 
-        {/* Divider & Copyright */}
-        <div className="max-w-[1280px] mx-auto pt-8 border-t border-white/10 text-center text-gray-500 text-xs">
-          <p>© 2026 Wamdh. All rights reserved.</p>
+        {/* Floating Chat Widget in Bottom Right corner */}
+        <div className="fixed bottom-6 right-6 z-50 animate-float">
+          <button 
+            onClick={handleDownload}
+            className="w-14 h-14 rounded-full bg-[#2547F4] hover:bg-[#1B35C4] text-white flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:rotate-12 hover:scale-110"
+            title="Chat Support"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </button>
         </div>
       </footer>
 

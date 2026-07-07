@@ -28,3 +28,9 @@ dist/
 *.log
 .DS_Store
 Thumbs.db
+
+# Large build binaries
+*.apk
+*.aab
+web/public/downloads/wamdh.apk
+
