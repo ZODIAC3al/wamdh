@@ -8,22 +8,30 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#7C3AED",
-        "primary-light": "#A78BFA",
-        "primary-soft": "#EDE9FE",
-        surface: "#FFFFFF",
-        background: "#F4F4F8",
-        "gray-text": "#6B7280",
-        success: "#10B981",
-        error: "#EF4444",
-        warning: "#F59E0B",
-        dark: {
-          bg: "#0F0F1A",
-          surface: "#1A1A2E",
-          card: "#252540",
-          border: "#2E2E50",
-        },
+        primary: "#2547F4",
+        "primary-dark": "#1B35C4",
+        navy: "#0E1526",
+        "bg-light": "#F7F8FB",
+        "bg-white": "#FFFFFF",
+        "text-dark": "#12131A",
+        "text-muted": "#6B7280",
+        "text-on-blue": "#E4E9FF",
+        "accent-orange": "#FF6B57",
+        "accent-teal": "#22C1DC",
+        "accent-purple": "#6C63FF",
+        "border-light": "#E7E9F0",
       },
+      fontFamily: {
+        sans: ["Inter", "Poppins", "sans-serif"],
+      },
+      borderRadius: {
+        card: "16px",
+        phone: "36px",
+      },
+      boxShadow: {
+        card: "0 10px 30px rgba(0,0,0,0.06)",
+        phone: "0 40px 80px rgba(0,0,0,0.6)",
+      }
     },
   },
   plugins: [],

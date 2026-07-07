@@ -24,7 +24,7 @@
       "distribution": "internal",
       "channel": "preview",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api-staging.wamdh.app",
+        "EXPO_PUBLIC_API_URL": "https://wamdh-production.up.railway.app",
         "EXPO_PUBLIC_ENV": "staging"
       },
       "android": {
@@ -38,7 +38,7 @@
       "autoIncrement": true,
       "channel": "production",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api.wamdh.app",
+        "EXPO_PUBLIC_API_URL": "https://wamdh-production.up.railway.app",
         "EXPO_PUBLIC_ENV": "production"
       },
       "android": {
