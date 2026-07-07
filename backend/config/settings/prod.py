@@ -9,6 +9,11 @@ _allowed = os.environ.get("ALLOWED_HOST", "")
 ALLOWED_HOSTS = [h.strip() for h in _allowed.split(",") if h.strip()]
 # Always allow Railway and Render auto-generated domains, plus local interfaces for health checks
 ALLOWED_HOSTS += [".up.railway.app", ".onrender.com", "localhost", "127.0.0.1", "0.0.0.0"]
+# Railway internal network: healthcheck probes arrive with the container's internal IP as the
+# Host header (e.g. 10.x.x.x), which Django rejects with 400 unless we allow it.
+# Adding "*" is safe here because Railway's edge proxy handles external-facing security.
+if os.environ.get("RAILWAY_ENVIRONMENT") or os.environ.get("RAILWAY_PROJECT_ID"):
+    ALLOWED_HOSTS += ["*"]
 
 if not os.environ.get("DJANGO_SECRET_KEY"):
     raise ValueError("DJANGO_SECRET_KEY environment variable must be set in production")
