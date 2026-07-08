@@ -278,9 +278,9 @@ export default function Home() {
   }, []);
 
   const handleDownload = (e: React.MouseEvent) => {
-    // Trigger direct download from static public folder
+    // Trigger download from API endpoint with proper MIME type
     const link = document.createElement("a");
-    link.href = "/downloads/wamdh.apk";
+    link.href = "/api/download";
     link.download = "wamdh.apk";
     link.style.display = "none";
     document.body.appendChild(link);

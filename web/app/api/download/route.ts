@@ -1,7 +1,8 @@
-import { createReadStream, existsSync } from "fs";
-import { stat } from "fs/promises";
+import { existsSync, readFileSync } from "fs";
 import { NextResponse } from "next/server";
 import { join } from "path";
+
+export const runtime = "nodejs";
 
 export async function GET() {
   try {
@@ -11,34 +12,26 @@ export async function GET() {
     // Check if file exists
     if (!existsSync(filePath)) {
       console.error("APK file not found at:", filePath);
-      return NextResponse.json(
-        { error: "APK file not found" },
-        { status: 404 },
-      );
+      return new NextResponse("File not found", { status: 404 });
     }
 
-    // Get file stats
-    const fileStats = await stat(filePath);
-
-    // Create readable stream for large files
-    const fileStream = createReadStream(filePath);
+    // Read the file into memory
+    const fileBuffer = readFileSync(filePath);
 
     // Return the file with proper headers for download
-    return new NextResponse(fileStream as any, {
+    return new NextResponse(fileBuffer, {
       status: 200,
       headers: {
         "Content-Type": "application/vnd.android.package-archive",
         "Content-Disposition": 'attachment; filename="wamdh.apk"',
-        "Cache-Control": "public, max-age=86400",
-        "Content-Length": fileStats.size.toString(),
-        "Accept-Ranges": "bytes",
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+        "Content-Length": fileBuffer.length.toString(),
       },
     });
   } catch (error) {
     console.error("Download error:", error);
-    return NextResponse.json(
-      { error: "Failed to download APK", details: String(error) },
-      { status: 500 },
-    );
+    return new NextResponse("Download failed", { status: 500 });
   }
 }
