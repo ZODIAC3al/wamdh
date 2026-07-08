@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import "../global.css";
 import React, { useEffect } from "react";
 import { DarkTheme, DefaultTheme, ThemeProvider, Stack, useRouter, useSegments } from "expo-router";
@@ -128,16 +129,19 @@ function RootLayoutContent() {
 }
 
 import { StripeWrapper } from "../components/StripeWrapper";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import '@/global.css';
 
 export default function RootLayout() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <StripeWrapper publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""}>
-        <RootLayoutContent />
-      </StripeWrapper>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        <StripeWrapper publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""}>
+          <RootLayoutContent />
+        </StripeWrapper>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }
