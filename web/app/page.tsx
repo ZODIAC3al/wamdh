@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 
 /* ─── Shared Components: PhoneMockup ───────────────────────────────────────── */
 interface PhoneMockupProps {
-  activeScreen: "energy" | "temperature" | "room";
+  activeScreen: "chat" | "flashcards" | "planner";
 }
 
 function PhoneMockup({ activeScreen }: PhoneMockupProps) {
@@ -29,148 +29,115 @@ function PhoneMockup({ activeScreen }: PhoneMockupProps) {
           </div>
         </div>
 
-        {/* ─── Screen: Energy ─── */}
-        {activeScreen === "energy" && (
-          <div className="flex-1 flex flex-col p-4">
-            <div className="flex justify-between items-center mb-3">
-              <div>
-                <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Energy Saving</p>
-                <h4 className="text-sm font-extrabold text-white">Live statistics</h4>
-              </div>
-              <span className="bg-[#2547F4]/20 text-[#2547F4] text-[10px] font-bold px-2 py-0.5 rounded-full border border-[#2547F4]/30">Active</span>
-            </div>
-
-            {/* Circular Ring Chart */}
-            <div className="relative flex justify-center items-center my-4">
-              <svg className="w-32 h-32 transform -rotate-90">
-                <circle cx="64" cy="64" r="50" stroke="rgba(255,255,255,0.06)" strokeWidth="8" fill="transparent" />
-                <circle cx="64" cy="64" r="50" stroke="#FF6B57" strokeWidth="8" fill="transparent" strokeDasharray="314" strokeDashoffset="80" strokeLinecap="round" />
-                <circle cx="64" cy="64" r="40" stroke="rgba(255,255,255,0.06)" strokeWidth="6" fill="transparent" />
-                <circle cx="64" cy="64" r="40" stroke="#22C1DC" strokeWidth="6" fill="transparent" strokeDasharray="251" strokeDashoffset="90" strokeLinecap="round" />
-              </svg>
-              <div className="absolute text-center">
-                <p className="text-xl font-extrabold text-white">256</p>
-                <p className="text-[9px] text-gray-400 uppercase tracking-widest font-semibold">Total kWh</p>
-              </div>
-            </div>
-
-            {/* Device Shortcut Icons */}
-            <div className="grid grid-cols-2 gap-2 mt-auto">
-              {[
-                { name: "Smart Light", status: "On", color: "from-[#FF6B57]/20 to-[#FF6B57]/5", icon: "💡", accent: "text-[#FF6B57]" },
-                { name: "Air Cond.", status: "Off", color: "from-[#22C1DC]/20 to-[#22C1DC]/5", icon: "❄️", accent: "text-[#22C1DC]" },
-                { name: "Smart TV", status: "On", color: "from-[#6C63FF]/20 to-[#6C63FF]/5", icon: "📺", accent: "text-[#6C63FF]" },
-                { name: "Home Heater", status: "Off", color: "from-white/10 to-white/5", icon: "🔥", accent: "text-gray-400" },
-              ].map((item, idx) => (
-                <div key={idx} className={`bg-gradient-to-br ${item.color} border border-white/5 rounded-2xl p-3 flex flex-col justify-between h-20`}>
-                  <div className="flex justify-between items-start">
-                    <span className="text-lg">{item.icon}</span>
-                    <span className={`text-[9px] font-bold uppercase tracking-wider ${item.status === "On" ? "text-emerald-400" : "text-gray-500"}`}>{item.status}</span>
-                  </div>
-                  <div>
-                    <h5 className="text-[10px] font-extrabold text-white">{item.name}</h5>
-                    <p className={`text-[8px] ${item.accent} font-semibold`}>Control App</p>
-                  </div>
+        {/* ─── Screen: Chat ─── */}
+        {activeScreen === "chat" && (
+          <div className="flex-1 flex flex-col p-4 justify-between">
+            <div className="flex justify-between items-center border-b border-white/10 pb-2 mb-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🤖</span>
+                <div>
+                  <h4 className="text-xs font-extrabold text-white">Mona AI Tutor</h4>
+                  <p className="text-[8px] text-emerald-400 font-semibold">Active Study Assistant</p>
                 </div>
-              ))}
+              </div>
+              <span className="bg-violet-500/20 text-violet-400 text-[8px] font-bold px-2 py-0.5 rounded-full border border-violet-500/30">ELI5</span>
+            </div>
+
+            {/* Chat History */}
+            <div className="flex-1 flex flex-col gap-2 overflow-y-auto pt-2 scrollbar-none">
+              <div className="bg-white/5 border border-white/5 rounded-2xl p-2.5 max-w-[85%] self-start">
+                <p className="text-[10px] text-gray-300">Hi! I parsed your 'Linear Algebra' notes. Ask me anything, or toggle ELI5 to simplify.</p>
+              </div>
+              <div className="bg-violet-600/20 border border-violet-500/20 rounded-2xl p-2.5 max-w-[85%] self-end">
+                <p className="text-[10px] text-white">Explain eigenvalues in simple terms.</p>
+              </div>
+              <div className="bg-white/5 border border-white/5 rounded-2xl p-2.5 max-w-[85%] self-start">
+                <p className="text-[10px] text-gray-300 font-medium">Imagine stretching a grid. Eigenvectors keep their direction; eigenvalues represent how much they stretch! 🚀</p>
+              </div>
+            </div>
+
+            {/* Input Row */}
+            <div className="mt-2 flex gap-1 bg-white/5 border border-white/5 rounded-xl p-1.5 items-center">
+              <span className="text-xs px-1 text-gray-400">Ask...</span>
+              <div className="ml-auto bg-violet-600 px-2 py-1 rounded-lg text-[9px] font-bold">ELI5: ON</div>
             </div>
           </div>
         )}
 
-        {/* ─── Screen: Temperature ─── */}
-        {activeScreen === "temperature" && (
+        {/* ─── Screen: Flashcards ─── */}
+        {activeScreen === "flashcards" && (
           <div className="flex-1 flex flex-col p-4 justify-between">
             <div>
-              <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Living Room</p>
-              <h4 className="text-sm font-extrabold text-white">Temperature control</h4>
+              <p className="text-[10px] text-violet-400 uppercase tracking-wider font-bold">Spaced Repetition</p>
+              <h4 className="text-sm font-extrabold text-white">Deck: Medical Physiology</h4>
             </div>
 
-            {/* Mode Selectors */}
-            <div className="flex justify-around bg-white/5 rounded-xl p-1.5 my-2">
-              {["☀️", "❄️", "💧", "🌪️"].map((m, i) => (
-                <button key={i} className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all ${i === 1 ? "bg-[#2547F4] text-white" : "text-gray-400 hover:text-white"}`}>
-                  {m}
+            {/* Card Content */}
+            <div className="my-auto bg-white/5 border border-white/10 rounded-2xl p-4 min-h-[160px] flex flex-col justify-center items-center text-center shadow-inner relative">
+              <div className="absolute top-2 left-3 bg-violet-500/10 text-violet-400 text-[8px] font-extrabold px-2 py-0.5 rounded-full">Card 14/40</div>
+              <p className="text-xs font-bold text-white mb-2">Question:</p>
+              <p className="text-[11px] text-gray-300">What is the primary function of mitochondria?</p>
+              <div className="mt-4 border-t border-white/10 pt-2 w-full">
+                <p className="text-[10px] text-emerald-400 font-bold">Answer: Powerhouse of the cell, generating ATP.</p>
+              </div>
+            </div>
+
+            {/* SM-2 Review buttons */}
+            <div className="grid grid-cols-4 gap-1 mt-2">
+              {[
+                { name: "Again", style: "bg-red-500/20 text-red-400 border-red-500/30" },
+                { name: "Hard", style: "bg-amber-500/20 text-amber-400 border-amber-500/30" },
+                { name: "Good", style: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
+                { name: "Easy", style: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" },
+              ].map((b, i) => (
+                <button key={i} className={`py-2 rounded-lg border text-[9px] font-bold text-center ${b.style}`}>
+                  {b.name}
                 </button>
               ))}
             </div>
-
-            {/* Temperature Dial */}
-            <div className="relative flex justify-center items-center my-2">
-              <div className="w-36 h-36 rounded-full border-4 border-[#2547F4]/40 flex items-center justify-center bg-[#1E2538]/50 shadow-inner relative">
-                {/* Dial Tick marks */}
-                <div className="absolute inset-2 rounded-full border border-dashed border-white/10 spin-slow" />
-                <div className="text-center z-10">
-                  <p className="text-3xl font-black text-white">27°C</p>
-                  <p className="text-[9px] text-[#22C1DC] font-extrabold uppercase tracking-widest mt-0.5">Cooling Mode</p>
-                </div>
-                {/* Circular Adjuster Knob */}
-                <div className="absolute top-2 w-4 h-4 bg-white rounded-full border-2 border-[#2547F4] shadow-md cursor-pointer" />
-              </div>
-            </div>
-
-            {/* Weekly Bar Chart */}
-            <div className="bg-white/5 rounded-2xl p-3 flex flex-col gap-2">
-              <div className="flex justify-between items-center">
-                <span className="text-[9px] text-gray-400 uppercase font-bold tracking-wider">Weekly Usage</span>
-                <span className="text-[9px] text-emerald-400 font-extrabold">-12% this week</span>
-              </div>
-              <div className="flex justify-between items-end h-16 pt-2">
-                {[30, 45, 60, 35, 75, 50, 40].map((h, i) => (
-                  <div key={i} className="flex flex-col items-center flex-1">
-                    <div className={`w-2.5 rounded-t-sm w-full transition-all duration-300`} style={{ height: `${h}%`, background: i === 4 ? "#FF6B57" : "#2547F4" }} />
-                    <span className="text-[8px] text-gray-500 mt-1 font-bold">{"SMTWTFS"[i]}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         )}
 
-        {/* ─── Screen: Room ─── */}
-        {activeScreen === "room" && (
+        {/* ─── Screen: Planner ─── */}
+        {activeScreen === "planner" && (
           <div className="flex-1 flex flex-col p-4 justify-between">
             <div>
-              <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Smart System</p>
-              <h4 className="text-sm font-extrabold text-white">My Bedroom devices</h4>
+              <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">AI Planner</p>
+              <h4 className="text-sm font-extrabold text-white">Daily Study Checklist</h4>
             </div>
 
-            {/* Tabs */}
-            <div className="flex gap-1.5 my-2">
-              {["All", "Light", "AC", "TV"].map((t, i) => (
-                <span key={i} className={`text-[9px] font-bold px-3 py-1 rounded-full cursor-pointer transition-all ${i === 0 ? "bg-[#2547F4] text-white" : "bg-white/5 text-gray-400 hover:text-white"}`}>
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            {/* iOS style device switches */}
-            <div className="flex-1 flex flex-col gap-2 my-2 overflow-y-auto max-h-[220px] scrollbar-thin">
+            {/* Task list / Kanban status */}
+            <div className="flex-1 flex flex-col gap-2 my-4 overflow-y-auto max-h-[220px] scrollbar-none">
               {[
-                { name: "Main Chandelier", state: true, type: "Light", icon: "💡" },
-                { name: "Room Air Conditioner", state: true, type: "AC", icon: "❄️" },
-                { name: "Samsung Smart TV", state: false, type: "TV", icon: "📺" },
-                { name: "Nightstand Lamp", state: true, type: "Light", icon: "💡" },
-              ].map((dev, idx) => (
+                { name: "Biology Chapter 4 Review", time: "9:00 AM", done: true },
+                { name: "Quiz on Quantum Physics", time: "2:00 PM", active: true },
+                { name: "Draft History Essay outline", time: "5:00 PM" },
+              ].map((task, idx) => (
                 <div key={idx} className="bg-white/5 border border-white/5 rounded-xl p-2.5 flex justify-between items-center">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm">{dev.icon}</span>
+                    <span className="text-sm">{task.done ? "✅" : task.active ? "⏳" : "📝"}</span>
                     <div>
-                      <p className="text-[10px] font-bold text-white leading-tight">{dev.name}</p>
-                      <p className="text-[8px] text-gray-500">{dev.type}</p>
+                      <p className={`text-[10px] font-bold text-white leading-tight ${task.done ? "line-through text-gray-500" : ""}`}>{task.name}</p>
+                      <p className="text-[8px] text-gray-500">{task.time}</p>
                     </div>
                   </div>
-                  {/* Switch */}
-                  <div className={`w-8 h-4 rounded-full p-0.5 cursor-pointer flex transition-all duration-300 ${dev.state ? "bg-[#2547F4]" : "bg-white/10"}`}>
-                    <div className={`w-3.5 h-3.5 bg-white rounded-full transition-all duration-300 ${dev.state ? "translate-x-4" : ""}`} />
-                  </div>
+                  <span className={`text-[8px] px-1.5 py-0.5 rounded font-bold ${task.done ? "bg-emerald-500/10 text-emerald-400" : task.active ? "bg-amber-500/10 text-amber-400" : "bg-white/5 text-gray-400"}`}>
+                    {task.done ? "Done" : task.active ? "Doing" : "Todo"}
+                  </span>
                 </div>
               ))}
             </div>
 
-            {/* SAVE Button */}
-            <button className="w-full bg-[#2547F4] hover:bg-[#1B35C4] py-2 rounded-xl text-[10px] font-extrabold uppercase tracking-wider transition-all duration-200 mt-2">
-              Save configuration
-            </button>
+            {/* XP progress bar */}
+            <div className="bg-white/5 rounded-2xl p-2.5 flex flex-col gap-1.5 border border-white/5">
+              <div className="flex justify-between items-center">
+                <span className="text-[8px] text-gray-400 uppercase font-bold tracking-wider">Level 4 Scholar</span>
+                <span className="text-[8px] text-yellow-400 font-extrabold">+150 XP Today 🔥</span>
+              </div>
+              <div className="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
+                <div className="bg-yellow-400 h-full w-[70%] rounded-full" />
+              </div>
+            </div>
           </div>
         )}
 
@@ -210,15 +177,15 @@ export default function Home() {
     },
     {
       name: "Emily Johnson",
-      role: "Marketing Specialist",
+      role: "Medical Student",
       title: "Stunning Design & Animations",
-      text: "Outstanding design aesthetics and support features. Recommended for all smart-home enthusiasts looking for direct setup."
+      text: "The UI design is clean and gorgeous. The OCR note scanner converted all my medical slides into organized study guides."
     },
     {
       name: "Ahmad Rashid",
       role: "Engineering Student",
       title: "Amazing Spaced Repetition",
-      text: "Spaced repetition works like magic. Card intervals adjust perfectly to my memory retention score."
+      text: "Spaced repetition works like magic. Card intervals adjust perfectly to my recall scores using the SM-2 spaced repetition scheduler."
     }
   ];
 
@@ -240,8 +207,8 @@ export default function Home() {
   }, []);
 
   const handleDownload = (e: React.MouseEvent) => {
-    // Redirect to fast public Expo CDN download of the compiled APK
-    window.location.href = "https://expo.dev/artifacts/eas/GqO8ZK983pfFlagyiDg2P_VZB9zQbTkq9kLt9W9TrTk.apk";
+    // Redirect to the dedicated download page for full instructions & Expo/Standalone files
+    window.location.href = "/download";
   };
 
   return (
@@ -253,10 +220,10 @@ export default function Home() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#2547F4]/90 backdrop-blur-md border-b border-white/10 py-4 px-6 md:px-12">
         <div className="max-w-[1280px] mx-auto flex items-center justify-between">
           
-          {/* Logo (House icon + Wamdh wordmark) */}
+          {/* Logo (Spark icon + Wamdh wordmark) */}
           <div className="flex items-center gap-2 cursor-pointer">
             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             <span className="text-white font-extrabold text-lg tracking-tight">Wamdh</span>
           </div>
@@ -276,14 +243,14 @@ export default function Home() {
 
           {/* CTAs */}
           <div className="flex items-center gap-6">
-            <a href="#login" className="text-white/80 hover:text-white font-medium text-[15px] transition-colors">
-              Login
+            <a href="#download" className="text-white/80 hover:text-white font-medium text-[15px] transition-colors">
+              Get App
             </a>
             <button
               onClick={handleDownload}
               className="bg-white text-[#2547F4] hover:bg-[#E4E9FF] px-6 py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all shadow-md"
             >
-              Sign up
+              Download APK
             </button>
           </div>
         </div>
@@ -312,10 +279,10 @@ export default function Home() {
           {/* Left Column */}
           <div className="lg:col-span-6 text-left flex flex-col items-start">
             <h1 className="text-white font-extrabold text-5xl md:text-6xl lg:text-[64px] leading-[1.05] tracking-tight mb-6 animate-fade-in-up">
-              Wamdh Application
+              Wamdh Study OS
             </h1>
             <p className="text-[#E4E9FF] text-base md:text-lg max-w-xl leading-relaxed mb-8 animate-fade-in-up delay-100">
-              Manage energy, automate heating, control your lights, and keep your home secure with a single, easy-to-use application. Try it today.
+              Master your classes with a unified AI study platform. Scan notes with OCR, converse with a context-grounded AI tutor, review spaced cards, and stay on track with smart schedules.
             </p>
 
             {/* Buttons Row */}
@@ -326,7 +293,7 @@ export default function Home() {
               >
                 Get Started
               </button>
-              <button className="flex items-center gap-2 text-white font-bold hover:text-[#E4E9FF] transition-all group">
+              <button onClick={handleDownload} className="flex items-center gap-2 text-white font-bold hover:text-[#E4E9FF] transition-all group">
                 <span className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-all">
                   ▶
                 </span>
@@ -366,19 +333,19 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Left Phone: Energy */}
+            {/* Left Phone: Chat */}
             <div className="absolute left-[5%] bottom-0 transform -rotate-6 scale-[0.85] opacity-80 hover:opacity-100 transition-all duration-300 z-10">
-              <PhoneMockup activeScreen="energy" />
+              <PhoneMockup activeScreen="chat" />
             </div>
 
             {/* Center Phone (Raised, Larger, Shadow) */}
             <div className="absolute z-20 shadow-2xl hover:scale-105 transition-all duration-300">
-              <PhoneMockup activeScreen="temperature" />
+              <PhoneMockup activeScreen="flashcards" />
             </div>
 
-            {/* Right Phone: Room Devices */}
+            {/* Right Phone: Planner */}
             <div className="absolute right-[5%] bottom-0 transform rotate-6 scale-[0.85] opacity-80 hover:opacity-100 transition-all duration-300 z-10">
-              <PhoneMockup activeScreen="room" />
+              <PhoneMockup activeScreen="planner" />
             </div>
           </div>
 
@@ -400,12 +367,12 @@ export default function Home() {
           
           {/* Text block */}
           <div className="reveal flex flex-col items-start">
-            <span className="text-[#2547F4] text-[14px] font-bold uppercase tracking-widest mb-4">About us</span>
+            <span className="text-[#2547F4] text-[14px] font-bold uppercase tracking-widest mb-4">About Wamdh</span>
             <h2 className="text-[#12131A] font-extrabold text-4xl mb-6 leading-tight">
-              Wamdh's Smart Services
+              AI-Powered Personal Study Assistant
             </h2>
             <p className="text-[#6B7280] text-base leading-relaxed mb-8 max-w-xl">
-              Experience seamless, intuitive control over your ecosystem. Our app auto-detects lighting, climate controls, security sensors, and media centers. Enjoy intelligent scheduling and responsive diagnostics.
+              Experience a unified study workspace. Snap images of your lecture notes or upload PDFs to trigger high-quality OCR text extraction. Our RAG-based search grounds Mona, your study companion, to answer questions with full accuracy from your materials.
             </p>
             <button
               onClick={handleDownload}
@@ -421,20 +388,20 @@ export default function Home() {
             <div className="absolute w-[360px] h-[360px] rounded-full border-2 border-dashed border-[#2547F4]/20 animate-spin-slow pointer-events-none" />
 
             {/* Reusable Phone Mockup */}
-            <PhoneMockup activeScreen="temperature" />
+            <PhoneMockup activeScreen="chat" />
 
             {/* 4 Floating Badges */}
             <div className="absolute top-[10%] left-[10%] w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-lg animate-float">
-              💡
+              🤖
             </div>
             <div className="absolute top-[15%] right-[10%] w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-lg animate-float-slow">
-              ❄️
+              📝
             </div>
             <div className="absolute bottom-[20%] left-[5%] w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-lg animate-float-slow">
-              🔒
+              🗂️
             </div>
             <div className="absolute bottom-[15%] right-[5%] w-12 h-12 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center text-lg animate-float">
-              🖥️
+              📅
             </div>
           </div>
 
@@ -449,9 +416,9 @@ export default function Home() {
           
           {/* Left: Text Block */}
           <div className="lg:col-span-5 reveal flex flex-col items-start text-left">
-            <h2 className="text-[#12131A] font-extrabold text-4xl mb-4 leading-tight">Our Clients</h2>
+            <h2 className="text-[#12131A] font-extrabold text-4xl mb-4 leading-tight">Campus Reach</h2>
             <p className="text-[#6B7280] text-base leading-relaxed mb-6 max-w-md">
-              Wamdh is helping the world's leading enterprises democratize career development, unlock skills and build a future-proof workforce.
+              Wamdh is used by university students and educators globally to streamline studying, review spacing, and track academic metrics.
             </p>
           </div>
 
@@ -476,9 +443,9 @@ export default function Home() {
               {/* White client logos layout */}
               <div className="grid grid-cols-3 gap-6 md:gap-8 justify-items-center items-center w-full z-10">
                 {[
-                  "Unilever", "Schneider Electric", "Walmart", 
-                  "Deloitte.", "(intel)", "bp", 
-                  "ADP", "Standard Chartered", "BlueCross BlueShield"
+                  "Stanford University", "MIT", "Oxford University", 
+                  "Harvard College", "Cambridge Univ.", "Cairo University", 
+                  "KSU", "UCLA", "Univ. of Toronto"
                 ].map((logo, idx) => (
                   <div 
                     key={idx} 
@@ -508,9 +475,9 @@ export default function Home() {
         />
 
         <div className="max-w-[1280px] mx-auto text-center relative z-10">
-          <h2 className="text-[#12131A] font-extrabold text-4xl mb-4 reveal">Testimonial</h2>
+          <h2 className="text-[#12131A] font-extrabold text-4xl mb-4 reveal">Testimonials</h2>
           <p className="text-[#6B7280] text-base max-w-lg mx-auto mb-16 reveal delay-100">
-            Let's do our best to answer your most frequently asked questions. By doing this, we aim to assist you more effectively
+            Hear how students are accelerating their learning schedules and grades with Wamdh.
           </p>
 
           {/* Testimonials interactive area */}
@@ -585,29 +552,25 @@ export default function Home() {
         <div className="max-w-[1280px] mx-auto text-center">
           <h2 className="text-[#12131A] font-extrabold text-4xl mb-4 reveal">Transparent Pricing Plans</h2>
           <p className="text-[#6B7280] text-base max-w-lg mx-auto mb-16 reveal delay-100">
-            Choose the package that matches your home layout. Start free, upgrade anytime.
+            No paywalls. No hidden fees. Just complete learning tools.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto reveal delay-200">
             {[
-              { name: "Lite", price: "$0", desc: "Perfect for single room setups.", features: ["Control up to 4 devices", "Basic energy stats", "Single-user access"] },
-              { name: "Standard", price: "$19", desc: "For typical apartments and apartments.", features: ["Control up to 15 devices", "Weekly usage graphs", "Multi-user access", "Email Support"], highlight: true },
-              { name: "Premium", price: "$49", desc: "Full automation for modern villas.", features: ["Unlimited devices", "Advanced diagnostics", "Voice Assistant Sync", "24/7 Priority Support"] },
+              { name: "Standard Plan", price: "$0", desc: "Complete access to the platform utilities.", features: ["Unlimited OCR note processing", "AI summaries & chat conversations", "Unlimited quizzes & cards", "Full planner & calendars"], highlight: true },
             ].map((p, idx) => (
               <div
                 key={idx}
-                className={`bg-white rounded-3xl p-8 border border-[#E7E9F0] shadow-card flex flex-col justify-between relative hover:shadow-lg transition-all duration-300 ${p.highlight ? "ring-2 ring-[#2547F4]" : ""}`}
+                className="bg-white rounded-3xl p-8 border border-[#E7E9F0] shadow-card flex flex-col justify-between relative hover:shadow-lg transition-all duration-300 ring-2 ring-[#2547F4] col-start-2"
               >
-                {p.highlight && (
-                  <span className="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-[#2547F4] text-white text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                    Recommended
-                  </span>
-                )}
+                <span className="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-[#2547F4] text-white text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                  Free Forever
+                </span>
                 <div>
                   <h4 className="text-[#12131A] font-extrabold text-lg mb-2">{p.name}</h4>
                   <div className="flex items-baseline justify-center gap-1 my-4">
                     <span className="text-[#12131A] font-black text-4xl">{p.price}</span>
-                    <span className="text-[#6B7280] text-sm">/month</span>
+                    <span className="text-[#6B7280] text-sm">/forever</span>
                   </div>
                   <p className="text-[#6B7280] text-xs mb-6">{p.desc}</p>
                   <hr className="border-[#E7E9F0] mb-6" />
@@ -621,9 +584,9 @@ export default function Home() {
                 </div>
                 <button
                   onClick={handleDownload}
-                  className={`w-full py-3 rounded-xl text-xs font-extrabold uppercase tracking-widest mt-8 transition-all ${p.highlight ? "bg-[#2547F4] text-white hover:bg-[#1B35C4]" : "bg-gray-100 text-[#12131A] hover:bg-gray-200"}`}
+                  className="w-full py-3 rounded-xl text-xs font-extrabold uppercase tracking-widest mt-8 transition-all bg-[#2547F4] text-white hover:bg-[#1B35C4]"
                 >
-                  Activate Plan
+                  Start Studying
                 </button>
               </div>
             ))}
@@ -640,10 +603,10 @@ export default function Home() {
 
           <div className="space-y-4 text-left reveal delay-100">
             {[
-              { q: "What is Wamdh app?", a: "Wamdh is a unified control client designed to consolidate configuration profiles, light fixtures, climate regulators, and safety appliances into a single intuitive app dashboard." },
-              { q: "How do I connect my devices?", a: "Our system runs on-device autodiscovery using multicast UDP/DNS. Make sure all devices are logged to your primary local router network." },
-              { q: "Is the app compatible with all devices?", a: "Yes, our engine integrates with Zigbee, Z-Wave, Matter, HomeKit, and major hardware standards." },
-              { q: "Is my data safe with Wamdh app?", a: "All communication keys remain encrypted locally. Usage metrics do not leave your home ecosystem without user consent." }
+              { q: "What is Wamdh?", a: "Wamdh is a unified AI study platform combining OCR note ingestion, context-grounded AI chat tutoring, spaced repetition flashcards, quizzes, and automated planner scheduling." },
+              { q: "How does the AI Chat Tutor work?", a: "The AI Chat Tutor ('Mona') uses retrieval-augmented generation (RAG) to scan and reference your notes locally, ensuring responses are completely grounded in your syllabus." },
+              { q: "Is the app completely free?", a: "Yes, our Standard Plan is free forever and unlocks all primary features including unlimited OCR note scanning, summaries, study planners, and flashcards." },
+              { q: "Is it available on Android and iOS?", a: "Yes! A standalone APK is available for direct installation on Android, and iOS beta previews are available through Apple TestFlight." }
             ].map((faq, idx) => (
               <div
                 key={idx}
@@ -675,7 +638,7 @@ export default function Home() {
               Download App
             </h2>
             <p className="text-[#6B7280] text-base leading-relaxed mb-8 max-w-md">
-              Control your smart home environment directly on your device. Click the button below to get the official release APK packages.
+              Take your study environment with you. Scan notes, practice flashcards, and coordinate schedules on your mobile device.
             </p>
             
             {/* Store Buttons */}
@@ -704,7 +667,7 @@ export default function Home() {
               onClick={handleDownload}
               className="bg-[#2547F4] hover:bg-[#1B35C4] text-white px-8 py-3.5 rounded-full text-[14px] font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20"
             >
-              Download direct SDK / APK Package
+              Get Standalone APK Package
             </button>
           </div>
 
@@ -716,7 +679,7 @@ export default function Home() {
                 <div key={i} className="w-1.5 h-1.5 rounded-full bg-[#12131A]" />
               ))}
             </div>
-            <PhoneMockup activeScreen="temperature" />
+            <PhoneMockup activeScreen="flashcards" />
           </div>
 
         </div>
@@ -759,7 +722,7 @@ export default function Home() {
             <div className="md:col-span-4 flex flex-col items-start text-left">
               <div className="flex items-center gap-2 mb-5">
                 <svg className="w-6 h-6 text-[#2547F4]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
                 <span className="font-extrabold text-lg tracking-tight text-white">Wamdh</span>
               </div>

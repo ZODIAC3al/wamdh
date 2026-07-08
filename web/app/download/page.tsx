@@ -23,7 +23,7 @@ interface Feature {
 export default function DownloadPage() {
   const [copied, setCopied] = useState(false);
   const [detectedPlatform, setDetectedPlatform] = useState<string | null>(null);
-  const expoUri = "exp://u.expo.dev/project-id";
+  const expoUri = "exp://u.expo.dev/178355d6-0c6c-45a2-9174-46a00d33664f";
 
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor;

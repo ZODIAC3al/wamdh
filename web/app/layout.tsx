@@ -2,8 +2,8 @@ import "./globals.css";
 import React from "react";
 
 export const metadata = {
-  title: "Wamdh – Smart Home Control Application",
-  description: "Manage energy, automate heating, control your lights, and keep your home secure with a single, easy-to-use application.",
+  title: "Wamdh – AI-Powered Study Operating System",
+  description: "Wamdh is a comprehensive AI study platform combining OCR note ingestion, interactive AI tutoring, spaced repetition flashcards, quizzes, and automated planner scheduling.",
 };
 
 export default function RootLayout({
