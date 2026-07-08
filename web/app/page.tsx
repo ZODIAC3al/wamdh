@@ -278,13 +278,16 @@ export default function Home() {
   }, []);
 
   const handleDownload = (e: React.MouseEvent) => {
-    // Directly trigger APK download
+    // Trigger direct download from static public folder
     const link = document.createElement("a");
-    link.href = "/api/download";
+    link.href = "/downloads/wamdh.apk";
     link.download = "wamdh.apk";
+    link.style.display = "none";
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    setTimeout(() => {
+      document.body.removeChild(link);
+    }, 100);
   };
 
   return (
