@@ -25,7 +25,10 @@
       "channel": "preview",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://wamdh-production.up.railway.app",
-        "EXPO_PUBLIC_ENV": "staging"
+        "EXPO_PUBLIC_ENV": "staging",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51Sn7aePd4Rr03y3OCmsGRAoZK5LYh4A6NLeQ2C7XrRWnYxusHrbtqxBu0OHdpQwttkPsiiy1xRe9LiuVjL3ip1Ll00SNMQlXHX",
+        "EXPO_PUBLIC_GOOGLE_CLIENT_ID": "523902891304-4n3omkfct4oucsh356ml8vqp1pvdk31h.apps.googleusercontent.com",
+        "EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID": "523902891304-lnl3i0l00bnn6l4u4jsova5plovajfo4.apps.googleusercontent.com"
       },
       "android": {
         "buildType": "apk"
@@ -39,10 +42,13 @@
       "channel": "production",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://wamdh-production.up.railway.app",
-        "EXPO_PUBLIC_ENV": "production"
+        "EXPO_PUBLIC_ENV": "production",
+        "EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY": "pk_test_51Sn7aePd4Rr03y3OCmsGRAoZK5LYh4A6NLeQ2C7XrRWnYxusHrbtqxBu0OHdpQwttkPsiiy1xRe9LiuVjL3ip1Ll00SNMQlXHX",
+        "EXPO_PUBLIC_GOOGLE_CLIENT_ID": "523902891304-4n3omkfct4oucsh356ml8vqp1pvdk31h.apps.googleusercontent.com",
+        "EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID": "523902891304-lnl3i0l00bnn6l4u4jsova5plovajfo4.apps.googleusercontent.com"
       },
       "android": {
-        "buildType": "app-bundle",
+        "buildType": "apk",
         "credentialsSource": "remote"
       },
       "ios": {
