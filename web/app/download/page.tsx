@@ -233,6 +233,11 @@ export default function DownloadPage() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#F59E0B]/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto text-center relative z-10">
+        <div className="flex justify-center mb-6">
+          <div className="w-24 h-24 rounded-3xl overflow-hidden border border-white/20 shadow-2xl shadow-violet-600/30 p-1 bg-white/10 backdrop-blur-md">
+            <img src="/logo.png" alt="Wamdh Logo" className="w-full h-full object-cover rounded-2xl" />
+          </div>
+        </div>
         <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-violet-400 mb-6 uppercase tracking-wider">
           <span>✨</span> Instantly Level Up Your Grades
         </div>
