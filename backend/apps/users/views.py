@@ -14,7 +14,10 @@ User = get_user_model()
 
 class LoginRateThrottle(SimpleRateThrottle):
     scope = "login"
-    rate = "5/min"
+
+    def __init__(self):
+        self.rate = self.get_rate() or "5/min"
+        super().__init__()
 
     def get_cache_key(self, request, view):
         return self.cache_format % {
@@ -25,7 +28,10 @@ class LoginRateThrottle(SimpleRateThrottle):
 
 class RegisterRateThrottle(SimpleRateThrottle):
     scope = "register"
-    rate = "3/min"
+
+    def __init__(self):
+        self.rate = self.get_rate() or "3/min"
+        super().__init__()
 
     def get_cache_key(self, request, view):
         return self.cache_format % {
