@@ -417,7 +417,7 @@ class GoogleCallbackView(APIView):
             return Response({"error": "No code provided"}, status=status.HTTP_400_BAD_REQUEST)
 
         client_id = os.environ.get("GOOGLE_CLIENT_ID") or DEFAULT_GOOGLE_CLIENT_ID
-        client_secret = os.environ.get("GOOGLE_CLIENT_SECRET", "")
+        client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
         redirect_uri = request.build_absolute_uri(request.path)
         if "0.0.0.0" in redirect_uri:
             redirect_uri = redirect_uri.replace("0.0.0.0", "127.0.0.1")
@@ -426,10 +426,11 @@ class GoogleCallbackView(APIView):
         payload = {
             "code": code,
             "client_id": client_id,
-            "client_secret": client_secret,
             "redirect_uri": redirect_uri,
             "grant_type": "authorization_code",
         }
+        if client_secret:
+            payload["client_secret"] = client_secret
         
         try:
             token_response = requests.post(token_url, data=payload, timeout=10)
