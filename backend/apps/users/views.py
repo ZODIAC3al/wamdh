@@ -418,7 +418,7 @@ class GoogleCallbackView(APIView):
 
         client_id = os.environ.get("GOOGLE_CLIENT_ID") or DEFAULT_GOOGLE_CLIENT_ID
         client_secret = os.environ.get("GOOGLE_CLIENT_SECRET", "")
-        redirect_uri = request.build_absolute_uri("/api/users/google-callback/")
+        redirect_uri = request.build_absolute_uri(request.path)
         if "0.0.0.0" in redirect_uri:
             redirect_uri = redirect_uri.replace("0.0.0.0", "127.0.0.1")
 
@@ -434,6 +434,7 @@ class GoogleCallbackView(APIView):
         try:
             token_response = requests.post(token_url, data=payload, timeout=10)
             if token_response.status_code != 200:
+                print(f"[Google OAuth Error] Status: {token_response.status_code}, Body: {token_response.text}")
                 return Response(
                     {"error": f"Failed to retrieve Google tokens: {token_response.text}"},
                     status=status.HTTP_400_BAD_REQUEST
