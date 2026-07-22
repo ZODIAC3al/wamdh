@@ -2,12 +2,8 @@ import "react-native-gesture-handler";
 import "../global.css";
 import React, { useEffect } from "react";
 import { DarkTheme, DefaultTheme, ThemeProvider, Stack, useRouter, useSegments } from "expo-router";
-import { useColorScheme, LogBox } from "react-native";
-
-LogBox.ignoreLogs([
-  "SkPath.addRRect() is deprecated",
-  "react-native-skia] SkPath.addRRect()",
-]);
+import { useColorScheme, LogBox, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as SplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useFonts, Sora_700Bold } from "@expo-google-fonts/sora";
@@ -18,9 +14,16 @@ import { useAuthStore } from "../store/authStore";
 import { useThemeStore } from "../store/themeStore";
 import Toast from "../components/Toast";
 import { WamdhProvider, useWamdh } from "../context/WamdhContext";
+import { StripeWrapper } from "../components/StripeWrapper";
+import { GluestackUIProvider } from "../components/ui/gluestack-ui-provider";
+
+LogBox.ignoreLogs([
+  "SkPath.addRRect() is deprecated",
+  "react-native-skia] SkPath.addRRect()",
+]);
 
 // Keep splash screen visible until fonts are loaded
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 function AppThemeWrapper({ children }: { children: React.ReactNode }) {
   const { colors, isDark } = useWamdh();
@@ -41,18 +44,15 @@ function AppThemeWrapper({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    
     <GluestackUIProvider mode="dark">
       <ThemeProvider value={customTheme}>
-      {children}
-    </ThemeProvider>
+        {children}
+      </ThemeProvider>
     </GluestackUIProvider>
-  
   );
 }
 
 function RootLayoutContent() {
-  const colorScheme = useColorScheme();
   const { user, isLoading, initializeAuth } = useAuthStore();
   const { initializeTheme } = useThemeStore();
   const router = useRouter();
@@ -70,7 +70,7 @@ function RootLayoutContent() {
   useEffect(() => {
     initializeAuth();
     initializeTheme();
-    
+
     const timer = setTimeout(() => {
       SplashScreen.hideAsync().catch(() => {});
     }, 3000);
@@ -81,18 +81,18 @@ function RootLayoutContent() {
   useEffect(() => {
     if (isLoading) return;
     if (!fontsLoaded) return;
-    
+
     // Hide splash screen when ready
     SplashScreen.hideAsync().catch(() => {});
 
     const inAuthGroup = segments[0] === "(auth)";
-    
+
     if (!user) {
       if (!inAuthGroup) {
         router.replace("/(auth)/onboarding");
       }
     } else {
-      const inCorrectGroup = 
+      const inCorrectGroup =
         (user.role === "student" && segments[0] === "(student)") ||
         (user.role === "instructor" && segments[0] === "(instructor)") ||
         (user.role === "admin" && segments[0] === "(admin)");
@@ -127,12 +127,6 @@ function RootLayoutContent() {
     </WamdhProvider>
   );
 }
-
-import { StripeWrapper } from "../components/StripeWrapper";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import '@/global.css';
 
 export default function RootLayout() {
   return (
