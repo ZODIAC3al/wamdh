@@ -12,6 +12,8 @@ import { useToastStore } from "../../store/toastStore";
 import { useWamdh } from "../../context/WamdhContext";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
 import LanguageBottomSheet from "../../components/LanguageBottomSheet";
 
 // Helper to determine if a hex color is light or dark (YIQ model)
@@ -87,8 +89,50 @@ export default function RegisterScreen() {
     }
   };
 
-  const handleGooglePress = () => {
-    useToastStore.getState().show({ type: "info", text1: t("info") || "Info", text2: isRtl ? "تكامل جوجل معلق حالياً." : "Google signup integration pending." });
+  const handleGooglePress = async () => {
+    setLoading(true);
+    try {
+      const redirectUrl = Linking.createURL("/(auth)/register");
+      const initiateUrl = `${apiClient.defaults.baseURL}/api/users/google-login-initiate/?redirect_scheme=${encodeURIComponent(redirectUrl)}`;
+
+      if (Platform.OS === "web") {
+        window.location.href = initiateUrl;
+        return;
+      }
+
+      const result = await WebBrowser.openAuthSessionAsync(initiateUrl, redirectUrl);
+      if (result.type === "success" && result.url) {
+        const parsed = Linking.parse(result.url);
+        const accessToken = parsed.queryParams?.access;
+        const refreshToken = parsed.queryParams?.refresh;
+
+        if (accessToken && refreshToken) {
+          const access = Array.isArray(accessToken) ? accessToken[0] : accessToken;
+          const refresh = Array.isArray(refreshToken) ? refreshToken[0] : refreshToken;
+          const profileResponse = await apiClient.get("/api/users/profile/", {
+            headers: { Authorization: `Bearer ${access}` },
+          });
+          const profile = profileResponse.data;
+          await loginUser(access, refresh, {
+            id: profile.id, username: profile.username, email: profile.email,
+            role: (profile.role || "student") as UserRole,
+            xp_points: profile.xp_points || 0, streak_days: profile.streak_days || 0,
+            profile_photo_url: profile.profile_photo_url,
+            banner_image_url: profile.banner_image_url, bio: profile.bio,
+          });
+          useToastStore.getState().show({ type: "success", text1: t("welcome") || "Welcome!", text2: t("google_success") });
+        } else {
+          throw new Error("Tokens not found in Google redirect URL.");
+        }
+      } else {
+        useToastStore.getState().show({ type: "info", text1: t("info") || "Info", text2: t("google_cancelled") });
+      }
+    } catch (e: any) {
+      const msg = e.response?.data?.detail || e.message || "Google Login failed.";
+      useToastStore.getState().show({ type: "error", text1: t("registration_failed"), text2: msg });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const bg = colors.background;

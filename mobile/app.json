@@ -30,7 +30,16 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png",
         "backgroundColor": "#1A1A2E"
       },
-      "package": "com.wamdh.studyos"
+      "package": "com.wamdh.studyos",
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "NOTIFICATIONS",
+        "VIBRATE",
+        "INTERNET"
+      ]
     },
     "web": {
       "output": "static",

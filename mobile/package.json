@@ -7,7 +7,7 @@
     "@expo-google-fonts/jetbrains-mono": "^0.4.1",
     "@expo-google-fonts/sora": "^0.4.2",
     "@expo/html-elements": "^0.12.5",
-    "@expo/ui": "~56.0.20",
+    "@expo/ui": "~56.0.22",
     "@expo/vector-icons": "^15.1.1",
     "@gluestack-ui/core": "^5.0.0-alpha.0",
     "@gluestack-ui/utils": "^5.0.1-alpha.0",
@@ -18,26 +18,26 @@
     "@stripe/stripe-react-native": "0.64.0",
     "@tanstack/react-query": "^5.101.1",
     "axios": "^1.18.1",
-    "expo": "~56.0.14",
+    "expo": "~56.0.16",
     "expo-av": "^16.0.8",
     "expo-clipboard": "~56.0.4",
-    "expo-constants": "~56.0.18",
+    "expo-constants": "~56.0.21",
     "expo-device": "~56.0.4",
     "expo-document-picker": "~56.0.4",
     "expo-font": "~56.0.7",
     "expo-glass-effect": "~56.0.4",
     "expo-haptics": "~56.0.3",
     "expo-image": "~56.0.11",
-    "expo-image-picker": "~56.0.19",
+    "expo-image-picker": "~56.0.21",
     "expo-linking": "~56.0.15",
-    "expo-notifications": "~56.0.19",
-    "expo-router": "~56.2.13",
+    "expo-notifications": "~56.0.21",
+    "expo-router": "~56.2.15",
     "expo-secure-store": "~56.0.4",
-    "expo-splash-screen": "~56.0.12",
+    "expo-splash-screen": "~56.0.13",
     "expo-status-bar": "~56.0.4",
     "expo-symbols": "~56.0.6",
     "expo-system-ui": "~56.0.5",
-    "expo-updates": "~56.0.21",
+    "expo-updates": "~56.0.22",
     "expo-web-browser": "~56.0.5",
     "nativewind": "^5.0.0-preview.2",
     "react": "19.2.3",
@@ -84,5 +84,14 @@
   },
   "resolutions": {
     "lightningcss": "1.30.1"
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "expo-av"
+        ]
+      }
+    }
   }
 }

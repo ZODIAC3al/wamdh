@@ -23,6 +23,20 @@ interface Feature {
 export default function DownloadPage() {
   const [copied, setCopied] = useState(false);
   const [detectedPlatform, setDetectedPlatform] = useState<string | null>(null);
+  const [downloadState, setDownloadState] = useState<{
+    status: "idle" | "downloading" | "verifying" | "completed" | "error";
+    progress: number;
+    loadedBytes: number;
+    totalBytes: number;
+    errorMessage: string;
+  }>({
+    status: "idle",
+    progress: 0,
+    loadedBytes: 0,
+    totalBytes: 0,
+    errorMessage: "",
+  });
+
   const expoUri = "exp://u.expo.dev/178355d6-0c6c-45a2-9174-46a00d33664f";
 
   useEffect(() => {
@@ -40,22 +54,100 @@ export default function DownloadPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const formatSize = (bytes: number) => {
+    if (bytes === 0) return "0 MB";
+    const mb = bytes / (1024 * 1024);
+    return `${mb.toFixed(1)} MB`;
+  };
+
+  const triggerApkDownload = async () => {
+    try {
+      setDownloadState({
+        status: "downloading",
+        progress: 0,
+        loadedBytes: 0,
+        totalBytes: 0,
+        errorMessage: "",
+      });
+
+      const response = await fetch("/api/download");
+      if (!response.ok) {
+        throw new Error(`Download failed with server status ${response.status}`);
+      }
+
+      const contentLength = response.headers.get("Content-Length");
+      const total = contentLength ? parseInt(contentLength, 10) : 0;
+      let loaded = 0;
+
+      const reader = response.body?.getReader();
+      const chunks: Uint8Array[] = [];
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (value) {
+            chunks.push(value);
+            loaded += value.length;
+            const progress = total > 0 ? Math.round((loaded / total) * 100) : 50;
+            setDownloadState({
+              status: "downloading",
+              progress,
+              loadedBytes: loaded,
+              totalBytes: total,
+              errorMessage: "",
+            });
+          }
+        }
+      }
+
+      setDownloadState((prev) => ({ ...prev, status: "verifying", progress: 99 }));
+
+      const blob = new Blob(chunks as unknown as BlobPart[], { type: "application/vnd.android.package-archive" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "wamdh.apk";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      setDownloadState({
+        status: "completed",
+        progress: 100,
+        loadedBytes: loaded,
+        totalBytes: total,
+        errorMessage: "",
+      });
+    } catch (err: any) {
+      console.error("APK Download error:", err);
+      setDownloadState({
+        status: "error",
+        progress: 0,
+        loadedBytes: 0,
+        totalBytes: 0,
+        errorMessage: err?.message || "Download failed. Please click retry.",
+      });
+    }
+  };
+
   const platforms: Platform[] = [
     {
       id: "android",
       name: "Android",
       description:
-        "Install the high-performance native app bundle directly to unlock all features, camera OCR scanning, and offline study records.",
+        "Install the production standalone APK directly on Android 8 through 15 devices with full camera OCR, audio, and offline access.",
       icon: "🤖",
       buttonText: "📥 Download Standalone APK",
       buttonHref: "/api/download",
       buttonStyle:
         "bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500",
       features: [
-        "Offline mode",
-        "Camera OCR",
-        "Push notifications",
-        "Biometric auth",
+        "Android 8+ - 15+ supported",
+        "Direct installation",
+        "Camera OCR & Audio scan",
+        "Offline storage & cache",
       ],
     },
     {
@@ -151,8 +243,7 @@ export default function DownloadPage() {
           </span>
         </h1>
         <p className="text-gray-400 text-lg md:text-xl mb-16 max-w-xl mx-auto leading-relaxed">
-          Scan the QR code to run instantly inside the Expo Go sandbox, or
-          download the direct standalone builds below.
+          Download the verified production APK directly to your device or scan the QR code to run inside Expo Go.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20 text-left">
@@ -194,6 +285,7 @@ export default function DownloadPage() {
                   </li>
                 ))}
               </ul>
+
               {platform.id === "expo" ? (
                 <div className="flex flex-col items-center mb-4">
                   <div className="w-32 h-32 bg-white rounded-2xl p-2.5 shadow-2xl relative flex items-center justify-center border border-white/10">
@@ -202,149 +294,24 @@ export default function DownloadPage() {
                       viewBox="0 0 100 100"
                       fill="none"
                     >
-                      <rect
-                        x="0"
-                        y="0"
-                        width="100"
-                        height="100"
-                        fill="#FFFFFF"
-                      />
-                      <rect
-                        x="8"
-                        y="8"
-                        width="24"
-                        height="24"
-                        fill="#7C3AED"
-                        rx="4"
-                      />
-                      <rect
-                        x="14"
-                        y="14"
-                        width="12"
-                        height="12"
-                        fill="#FFFFFF"
-                        rx="2"
-                      />
-                      <rect
-                        x="17"
-                        y="17"
-                        width="6"
-                        height="6"
-                        fill="#F59E0B"
-                        rx="1"
-                      />
-                      <rect
-                        x="68"
-                        y="8"
-                        width="24"
-                        height="24"
-                        fill="#7C3AED"
-                        rx="4"
-                      />
-                      <rect
-                        x="74"
-                        y="74"
-                        width="12"
-                        height="12"
-                        fill="#FFFFFF"
-                        rx="2"
-                      />
-                      <rect
-                        x="8"
-                        y="68"
-                        width="24"
-                        height="24"
-                        fill="#7C3AED"
-                        rx="4"
-                      />
-                      <rect
-                        x="14"
-                        y="74"
-                        width="12"
-                        height="12"
-                        fill="#FFFFFF"
-                        rx="2"
-                      />
-                      <rect
-                        x="40"
-                        y="8"
-                        width="8"
-                        height="8"
-                        fill="#1F2937"
-                        rx="1"
-                      />
-                      <rect
-                        x="52"
-                        y="16"
-                        width="8"
-                        height="8"
-                        fill="#7C3AED"
-                        rx="1"
-                      />
-                      <rect
-                        x="40"
-                        y="28"
-                        width="12"
-                        height="8"
-                        fill="#1F2937"
-                        rx="1"
-                      />
-                      <rect
-                        x="8"
-                        y="40"
-                        width="8"
-                        height="12"
-                        fill="#7C3AED"
-                        rx="1"
-                      />
-                      <rect
-                        x="24"
-                        y="44"
-                        width="12"
-                        height="8"
-                        fill="#1F2937"
-                        rx="1"
-                      />
-                      <rect
-                        x="40"
-                        y="44"
-                        width="20"
-                        height="20"
-                        fill="#7C3AED"
-                        rx="2"
-                      />
-                      <rect
-                        x="68"
-                        y="40"
-                        width="8"
-                        height="16"
-                        fill="#1F2937"
-                        rx="1"
-                      />
-                      <rect
-                        x="80"
-                        y="68"
-                        width="12"
-                        height="12"
-                        fill="#7C3AED"
-                        rx="2"
-                      />
-                      <rect
-                        x="68"
-                        y="80"
-                        width="12"
-                        height="12"
-                        fill="#1F2937"
-                        rx="2"
-                      />
-                      <rect
-                        x="44"
-                        y="44"
-                        width="12"
-                        height="12"
-                        fill="#FFFFFF"
-                        rx="2"
-                      />
+                      <rect x="0" y="0" width="100" height="100" fill="#FFFFFF" />
+                      <rect x="8" y="8" width="24" height="24" fill="#7C3AED" rx="4" />
+                      <rect x="14" y="14" width="12" height="12" fill="#FFFFFF" rx="2" />
+                      <rect x="17" y="17" width="6" height="6" fill="#F59E0B" rx="1" />
+                      <rect x="68" y="8" width="24" height="24" fill="#7C3AED" rx="4" />
+                      <rect x="74" y="74" width="12" height="12" fill="#FFFFFF" rx="2" />
+                      <rect x="8" y="68" width="24" height="24" fill="#7C3AED" rx="4" />
+                      <rect x="14" y="74" width="12" height="12" fill="#FFFFFF" rx="2" />
+                      <rect x="40" y="8" width="8" height="8" fill="#1F2937" rx="1" />
+                      <rect x="52" y="16" width="8" height="8" fill="#7C3AED" rx="1" />
+                      <rect x="40" y="28" width="12" height="8" fill="#1F2937" rx="1" />
+                      <rect x="8" y="40" width="8" height="12" fill="#7C3AED" rx="1" />
+                      <rect x="24" y="44" width="12" height="8" fill="#1F2937" rx="1" />
+                      <rect x="40" y="44" width="20" height="20" fill="#7C3AED" rx="2" />
+                      <rect x="68" y="40" width="8" height="16" fill="#1F2937" rx="1" />
+                      <rect x="80" y="68" width="12" height="12" fill="#7C3AED" rx="2" />
+                      <rect x="68" y="80" width="12" height="12" fill="#1F2937" rx="2" />
+                      <rect x="44" y="44" width="12" height="12" fill="#FFFFFF" rx="2" />
                       <path d="M46 50 L50 47 L54 50 L50 53 Z" fill="#F59E0B" />
                     </svg>
                   </div>
@@ -358,24 +325,90 @@ export default function DownloadPage() {
                     </button>
                   </span>
                 </div>
+              ) : platform.id === "android" ? (
+                <div className="mt-auto flex flex-col gap-3">
+                  {downloadState.status === "idle" && (
+                    <button
+                      onClick={triggerApkDownload}
+                      className={`
+                        w-full ${platform.buttonStyle} text-white text-center py-3.5 rounded-2xl 
+                        font-semibold transition-all duration-200 shadow-lg shadow-violet-900/30 
+                        hover:scale-[1.02] flex items-center justify-center gap-2
+                      `}
+                    >
+                      <span>📥</span> Download Standalone APK
+                    </button>
+                  )}
+
+                  {(downloadState.status === "downloading" ||
+                    downloadState.status === "verifying") && (
+                    <div className="bg-black/30 border border-violet-500/30 rounded-2xl p-4 flex flex-col gap-2">
+                      <div className="flex justify-between items-center text-xs font-semibold">
+                        <span className="text-violet-300">
+                          {downloadState.status === "verifying"
+                            ? "Verifying File Package..."
+                            : "Downloading APK..."}
+                        </span>
+                        <span className="text-white">{downloadState.progress}%</span>
+                      </div>
+                      <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-violet-500 to-indigo-400 h-full transition-all duration-200"
+                          style={{ width: `${downloadState.progress}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between items-center text-[10px] text-gray-400">
+                        <span>
+                          {formatSize(downloadState.loadedBytes)} /{" "}
+                          {downloadState.totalBytes > 0
+                            ? formatSize(downloadState.totalBytes)
+                            : "Calculating..."}
+                        </span>
+                        <span>application/vnd.android.package-archive</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {downloadState.status === "completed" && (
+                    <div className="flex flex-col gap-2">
+                      <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 p-3 rounded-2xl text-xs flex items-center gap-2">
+                        <span>✅</span> Download completed successfully!
+                      </div>
+                      <button
+                        onClick={triggerApkDownload}
+                        className="text-xs text-violet-400 hover:text-violet-300 font-semibold underline text-center"
+                      >
+                        Download again
+                      </button>
+                    </div>
+                  )}
+
+                  {downloadState.status === "error" && (
+                    <div className="flex flex-col gap-2">
+                      <div className="bg-rose-500/10 border border-rose-500/30 text-rose-300 p-3 rounded-2xl text-xs">
+                        ⚠️ {downloadState.errorMessage}
+                      </div>
+                      <button
+                        onClick={triggerApkDownload}
+                        className="w-full bg-rose-600 hover:bg-rose-500 text-white text-center py-3 rounded-2xl font-semibold text-xs"
+                      >
+                        🔄 Retry Download
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <a
                   href={platform.buttonHref}
-                  download={platform.id === "android"}
-                  target={platform.id === "android" ? undefined : "_blank"}
-                  rel={
-                    platform.id === "android"
-                      ? undefined
-                      : "noopener noreferrer"
-                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`
                     w-full ${platform.buttonStyle} text-white text-center py-3.5 rounded-2xl 
                     font-semibold transition-all duration-200 shadow-lg shadow-violet-900/30 
                     hover:scale-[1.02] mt-auto flex items-center justify-center gap-2
                   `}
                 >
-                  <span>{platform.buttonText.split(" ")[0]}</span>{" "}
-                  {platform.buttonText.split(" ").slice(1).join(" ")}
+                  <span>🚀</span> Request TestFlight Access
                 </a>
               )}
             </div>
@@ -384,7 +417,7 @@ export default function DownloadPage() {
 
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 max-w-4xl mx-auto text-left mb-16">
           <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-            <span>⚙️</span> Android APK Installation Guide
+            <span>⚙️</span> Android 8 – 15 APK Installation Guide
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-400">
             <div className="flex gap-3">
@@ -392,11 +425,9 @@ export default function DownloadPage() {
                 1
               </span>
               <div>
-                <p className="font-bold text-white mb-1">Download APK</p>
+                <p className="font-bold text-white mb-1">Download APK File</p>
                 <p>
-                  Click the "Download Standalone APK" button to save the{" "}
-                  <code className="bg-black/30 px-1 rounded">wamdh.apk</code>{" "}
-                  file on your device.
+                  Tap the download button to stream <code className="bg-black/30 px-1 rounded">wamdh.apk</code> to your device storage.
                 </p>
               </div>
             </div>
@@ -409,8 +440,7 @@ export default function DownloadPage() {
                   Allow Unknown Sources
                 </p>
                 <p>
-                  Go to Settings &gt; Security &gt; Install Unknown Apps, and
-                  toggle permission for your browser.
+                  Go to <strong>Settings &gt; Security / Apps</strong> and allow permission to install apps from your web browser.
                 </p>
               </div>
             </div>
@@ -419,10 +449,9 @@ export default function DownloadPage() {
                 3
               </span>
               <div>
-                <p className="font-bold text-white mb-1">Install & Play</p>
+                <p className="font-bold text-white mb-1">Install & Launch</p>
                 <p>
-                  Tap the download notification or open the APK file from your
-                  file manager to run installation.
+                  Open the downloaded APK file from notifications or File Manager to finish installation and open Wamdh.
                 </p>
               </div>
             </div>
@@ -434,8 +463,7 @@ export default function DownloadPage() {
             All Features Included
           </h2>
           <p className="text-gray-400 mb-10 max-w-lg">
-            Every feature from our AI-powered learning platform in one unified
-            mobile experience.
+            Every feature from our AI-powered learning platform in one unified mobile experience.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {allFeatures.map((feat, idx) => (

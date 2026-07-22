@@ -112,7 +112,7 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
-      const response = await apiClient.post("/api/users/login/", { username: email, password });
+      const response = await apiClient.post("/api/users/login/", { username: email.trim(), password });
       const { access, refresh } = response.data;
       const profileResponse = await apiClient.get("/api/users/profile/", {
         headers: { Authorization: `Bearer ${access}` },
@@ -250,10 +250,10 @@ export default function LoginScreen() {
 
         {/* Form Container */}
         <View style={{ paddingHorizontal: 24 }}>
-          {/* Email */}
+          {/* Email or Username */}
           <Input
-            label={t("email_address")}
-            placeholder="nazmulshanto90@gmail.com"
+            label={isRtl ? "اسم المستخدم أو البريد الإلكتروني" : "Username or Email"}
+            placeholder={isRtl ? "اسم المستخدم أو البريد الإلكتروني" : "Username or email"}
             value={email}
             onChangeText={setEmail}
             leftIcon="mail-outline"
