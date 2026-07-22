@@ -5,7 +5,7 @@ import path from "path";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const FALLBACK_EAS_URL = "https://expo.dev/artifacts/eas/GpD16Jryb-eGcXaHONO-Y0llugFfmp1GPzlcX0HN5Mk.apk";
+const FALLBACK_EAS_URL = "https://expo.dev/artifacts/eas/9PyvdmpexiUhLOv1UowIT2HxIIDcxgkyZubeVod_4_M.apk";
 
 export async function GET(req: NextRequest) {
   try {
