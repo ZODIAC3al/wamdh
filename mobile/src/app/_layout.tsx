@@ -109,7 +109,7 @@ function RootLayoutContent() {
     }
   }, [user, isLoading, fontsLoaded, segments]);
 
-  if (isLoading) {
+  if (isLoading || !fontsLoaded) {
     return null;
   }
 
