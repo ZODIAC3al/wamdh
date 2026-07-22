@@ -333,16 +333,25 @@ export default function DownloadPage() {
               ) : platform.id === "android" ? (
                 <div className="mt-auto flex flex-col gap-3">
                   {downloadState.status === "idle" && (
-                    <button
-                      onClick={triggerApkDownload}
-                      className={`
-                        w-full ${platform.buttonStyle} text-white text-center py-3.5 rounded-2xl 
-                        font-semibold transition-all duration-200 shadow-lg shadow-violet-900/30 
-                        hover:scale-[1.02] flex items-center justify-center gap-2
-                      `}
-                    >
-                      <span>📥</span> Download Standalone APK
-                    </button>
+                    <div className="flex flex-col gap-2 w-full">
+                      <button
+                        onClick={triggerApkDownload}
+                        className={`
+                          w-full ${platform.buttonStyle} text-white text-center py-3.5 rounded-2xl 
+                          font-semibold transition-all duration-200 shadow-lg shadow-violet-900/30 
+                          hover:scale-[1.02] flex items-center justify-center gap-2
+                        `}
+                      >
+                        <span>📥</span> Download Standalone APK
+                      </button>
+                      <a
+                        href="https://expo.dev/artifacts/eas/9PyvdmpexiUhLOv1UowIT2HxIIDcxgkyZubeVod_4_M.apk"
+                        className="text-xs text-violet-400 hover:text-violet-300 font-semibold underline text-center mt-1"
+                        download="wamdh.apk"
+                      >
+                        Direct CDN Download (Fast Alternative)
+                      </a>
+                    </div>
                   )}
 
                   {(downloadState.status === "downloading" ||
@@ -399,6 +408,13 @@ export default function DownloadPage() {
                       >
                         🔄 Retry Download
                       </button>
+                      <a
+                        href="https://expo.dev/artifacts/eas/9PyvdmpexiUhLOv1UowIT2HxIIDcxgkyZubeVod_4_M.apk"
+                        className="text-xs text-violet-400 hover:text-violet-300 font-semibold underline text-center mt-2"
+                        download="wamdh.apk"
+                      >
+                        Download directly from Expo CDN (Bypass Proxy)
+                      </a>
                     </div>
                   )}
                 </div>
