@@ -417,7 +417,7 @@ class GoogleCallbackView(APIView):
             return Response({"error": "No code provided"}, status=status.HTTP_400_BAD_REQUEST)
 
         client_id = os.environ.get("GOOGLE_CLIENT_ID") or DEFAULT_GOOGLE_CLIENT_ID
-        client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
+        client_secret = (os.environ.get("GOOGLE_CLIENT_SECRET") or "").strip()
         redirect_uri = request.build_absolute_uri(request.path)
         if "0.0.0.0" in redirect_uri:
             redirect_uri = redirect_uri.replace("0.0.0.0", "127.0.0.1")
