@@ -319,13 +319,17 @@ class GoogleLoginView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-        # Verify audience if GOOGLE_CLIENT_ID is configured in the environment and it is an ID token
+        # Verify audience if provided token is an ID token
         import os
-        client_id = os.environ.get("GOOGLE_CLIENT_ID")
-        if client_id and token_type != "access_token":
+        web_client_id = os.environ.get("GOOGLE_CLIENT_ID") or "523902891304-4n3omkfct4oucsh356ml8vqp1pvdk31h.apps.googleusercontent.com"
+        android_client_id = os.environ.get("GOOGLE_ANDROID_CLIENT_ID") or "523902891304-lnl3i0l00bnn6l4u4jsova5plovajfo4.apps.googleusercontent.com"
+        ios_client_id = os.environ.get("GOOGLE_IOS_CLIENT_ID") or "523902891304-lnl3i0l00bnn6l4u4jsova5plovajfo4.apps.googleusercontent.com"
+
+        if token_type != "access_token":
             aud = google_data.get("aud") or google_data.get("azp")
-            if aud != client_id:
-                return Response({"error": "Google token audience mismatch"}, status=status.HTTP_400_BAD_REQUEST)
+            valid_audiences = {web_client_id, android_client_id, ios_client_id}
+            if aud and aud not in valid_audiences:
+                return Response({"error": f"Google token audience mismatch ({aud})"}, status=status.HTTP_400_BAD_REQUEST)
 
         email = google_data.get("email")
         if not email:
