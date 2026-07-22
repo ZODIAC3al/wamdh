@@ -377,13 +377,13 @@ class GoogleLoginView(APIView):
         })
 
 from django.shortcuts import redirect
-import os
+DEFAULT_GOOGLE_CLIENT_ID = "523902891304-4n3omkfct4oucsh356ml8vqp1pvdk31h.apps.googleusercontent.com"
 
 class GoogleLoginInitiateView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
-        client_id = os.environ.get("GOOGLE_CLIENT_ID")
+        client_id = os.environ.get("GOOGLE_CLIENT_ID") or DEFAULT_GOOGLE_CLIENT_ID
         redirect_uri = request.build_absolute_uri("/api/users/google-callback/")
         if "0.0.0.0" in redirect_uri:
             redirect_uri = redirect_uri.replace("0.0.0.0", "127.0.0.1")
@@ -411,8 +411,8 @@ class GoogleCallbackView(APIView):
         if not code:
             return Response({"error": "No code provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-        client_id = os.environ.get("GOOGLE_CLIENT_ID")
-        client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
+        client_id = os.environ.get("GOOGLE_CLIENT_ID") or DEFAULT_GOOGLE_CLIENT_ID
+        client_secret = os.environ.get("GOOGLE_CLIENT_SECRET", "")
         redirect_uri = request.build_absolute_uri("/api/users/google-callback/")
         if "0.0.0.0" in redirect_uri:
             redirect_uri = redirect_uri.replace("0.0.0.0", "127.0.0.1")
